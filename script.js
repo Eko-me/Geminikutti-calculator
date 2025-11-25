@@ -18,15 +18,21 @@ function clearDisplay() {
 }
 
 function deleteLast() {
-    calculation = calculation.slice(0, -1);
+    calculation = calculation.trim();
+    if (calculation.endsWith(' ')) {
+        calculation = calculation.slice(0, -3);
+    } else {
+        calculation = calculation.slice(0, -1);
+    }
     updateDisplay();
 }
 
 function calculateResult() {
     try {
-        answer = eval(calculation);
+        const sanitizedCalculation = calculation.replace(/×/g, '*').replace(/÷/g, '/');
+        answer = eval(sanitizedCalculation);
         updateDisplay();
-        calculation = '';
+        calculation = answer.toString();
     } catch (error) {
         answer = 'Error';
         updateDisplay();
